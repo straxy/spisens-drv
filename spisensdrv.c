@@ -24,9 +24,11 @@
 
 #define DRIVER_NAME				"spisensdrv"
 
-#define SPISENS_REG_ID			0
-#define SPISENS_REG_CTRL		1
-#define SPISENS_REG_DATA		2
+#define SPISENS_REG_SHIFT		4
+
+#define SPISENS_REG_ID			(0 << SPISENS_REG_SHIFT)
+#define SPISENS_REG_CTRL		(1 << SPISENS_REG_SHIFT)
+#define SPISENS_REG_DATA		(2 << SPISENS_REG_SHIFT)
 
 #define CTRL_EN_MASK				0x1
 
@@ -128,10 +130,12 @@ static bool spisens_regmap_is_writeable(struct device *dev, unsigned int reg)
 
 static const struct regmap_config spisens_regmap_config = {
 	.reg_bits = 8,
+	.reg_stride = SPISENS_REG_SHIFT,
 	.val_bits = 8,
 	.cache_type = REGCACHE_NONE,
 	.max_register = SPISENS_REG_DATA,
 	.writeable_reg = spisens_regmap_is_writeable,
+	.write_flag_mask = BIT(7),
 };
 
 /**
