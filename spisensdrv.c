@@ -182,12 +182,19 @@ static int spisens_probe(struct spi_device *spi)
 	return 0;
 }
 
+static const struct spi_device_id spisens_id[] = {
+	{ "spisens", 0 },
+	{},
+};
+MODULE_DEVICE_TABLE(spi, spisens_id);
+
 static struct spi_driver spisens_driver = {
 	.driver = {
 		.name = DRIVER_NAME,
 		.of_match_table = spisens_of_match,
 	},
 	.probe = spisens_probe,
+	.id_table = spisens_id,
 };
 module_spi_driver(spisens_driver);
 
